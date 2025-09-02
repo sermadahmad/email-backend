@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Backend API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .endpoint {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid #007acc;
+        }
+        .status {
+            color: #28a745;
+            font-weight: bold;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚨 Smart Security Email Backend API</h1>
+        <p class="status">✅ API is running successfully!</p>
+        
+        <h2>📧 Available Endpoint:</h2>
+        <div class="endpoint">
+            <strong>POST</strong> /api/send-security-alert
+        </div>
+        
+        <h3>💡 Usage Example:</h3>
+        <pre><code>fetch('/api/send-security-alert', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    to: 'recipient@email.com',
+    eventType: 'Motion Detected',
+    date: '2025-09-02',
+    time: '14:30:25',
+    mapsUrl: 'https://maps.google.com/...',
+    image1: 'data:image/png;base64,...', // optional
+    image2: 'data:image/png;base64,...'  // optional
+  })
+});</code></pre>
+
+        <h3>🔒 Required Parameters:</h3>
+        <ul>
+            <li><code>to</code> - Recipient email address</li>
+            <li><code>eventType</code> - Type of security event</li>
+            <li><code>date</code> - Date of the event</li>
+            <li><code>time</code> - Time of the event</li>
+        </ul>
+
+        <h3>📋 Optional Parameters:</h3>
+        <ul>
+            <li><code>mapsUrl</code> - Google Maps location URL</li>
+            <li><code>image1</code> - Base64 encoded image</li>
+            <li><code>image2</code> - Base64 encoded image</li>
+        </ul>
+
+        <p><em>This API sends formatted security alert emails with embedded images.</em></p>
+    </div>
+</body>
+</html>
