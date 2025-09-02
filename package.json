@@ -1,8 +1,8 @@
 {
   "name": "email-backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Smart Security Email Backend API - Sends formatted security alert emails with embedded images",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",

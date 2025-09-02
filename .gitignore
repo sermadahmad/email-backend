@@ -3,7 +3,6 @@ node_modules/
 
 # Environment variables
 .env
-.env.example
 
 # Logs
 *.log
@@ -25,8 +24,12 @@ coverage/
 .DS_Store
 Thumbs.db
 
-# Vercel
-vercel.json
+# Vercel deployment
+.vercel
+
+# Test files (temporary)
+test-*.js
+test-*.html
 
 
 DEPLOYMENT.md
