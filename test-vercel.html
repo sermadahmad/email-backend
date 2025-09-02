@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Vercel API</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .test-section { background: #f8f9fa; padding: 20px; margin: 20px 0; border-radius: 8px; }
+        .result { padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .success { background: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
+        .error { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
+        .loading { background: #d1ecf1; border: 1px solid #bee5eb; color: #0c5460; }
+        button { background: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        pre { background: #2d3748; color: #e2e8f0; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        input, textarea { width: 100%; padding: 8px; margin: 5px 0; border: 1px solid #ddd; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test Vercel API Deployment</h1>
+    
+    <div class="test-section">
+        <h2>📧 Email API Test</h2>
+        <p><strong>Testing URL:</strong> <code>https://email-backend-liard.vercel.app/api/send-security-alert</code></p>
+        
+        <div>
+            <label>To Email:</label>
+            <input type="email" id="toEmail" placeholder="your-email@gmail.com" required>
+        </div>
+        
+        <div>
+            <label>Event Type:</label>
+            <input type="text" id="eventType" value="Motion Detected - Vercel Test" required>
+        </div>
+        
+        <button onclick="testAPI()">🚀 Test API</button>
+        
+        <div id="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>🔍 Troubleshooting Checklist</h2>
+        <ul>
+            <li>✅ URL Format: <code>/api/send-security-alert</code> (correct)</li>
+            <li>⚠️ Environment Variables: Check if EMAIL_USER and EMAIL_PASS are set in Vercel</li>
+            <li>⚠️ CORS: API should accept requests from any origin</li>
+            <li>⚠️ Request Method: Must be POST</li>
+            <li>⚠️ Content-Type: Must be application/json</li>
+        </ul>
+    </div>
+
+    <script>
+        async function testAPI() {
+            const resultDiv = document.getElementById('result');
+            const toEmail = document.getElementById('toEmail').value;
+            const eventType = document.getElementById('eventType').value;
+            
+            if (!toEmail) {
+                resultDiv.innerHTML = '<div class="error">Please enter your email address!</div>';
+                return;
+            }
+            
+            resultDiv.innerHTML = '<div class="loading">🔄 Testing API...</div>';
+            
+            try {
+                const response = await fetch('/api/send-security-alert', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        to: toEmail,
+                        eventType: eventType,
+                        date: new Date().toISOString().split('T')[0],
+                        time: new Date().toTimeString().split(' ')[0],
+                        mapsUrl: 'https://maps.google.com'
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.innerHTML = `
+                        <div class="success">
+                            <h3>✅ API Test Successful!</h3>
+                            <p><strong>Status:</strong> ${response.status}</p>
+                            <p><strong>Message:</strong> ${result.message}</p>
+                            <pre>${JSON.stringify(result, null, 2)}</pre>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="error">
+                            <h3>❌ API Test Failed</h3>
+                            <p><strong>Status:</strong> ${response.status}</p>
+                            <p><strong>Error:</strong> ${result.error || 'Unknown error'}</p>
+                            <pre>${JSON.stringify(result, null, 2)}</pre>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <h3>❌ Network Error</h3>
+                        <p><strong>Error:</strong> ${error.message}</p>
+                        <p>This could mean:</p>
+                        <ul>
+                            <li>API endpoint doesn't exist</li>
+                            <li>CORS issues</li>
+                            <li>Network connectivity problems</li>
+                            <li>Vercel deployment issues</li>
+                        </ul>
+                    </div>
+                `;
+            }
+        }
+        
+        // Test if API endpoint exists
+        async function checkEndpoint() {
+            try {
+                const response = await fetch('/api/send-security-alert', {
+                    method: 'OPTIONS'
+                });
+                console.log('OPTIONS response:', response.status);
+            } catch (error) {
+                console.error('Endpoint check failed:', error);
+            }
+        }
+        
+        // Run endpoint check on load
+        checkEndpoint();
+    </script>
+</body>
+</html>
